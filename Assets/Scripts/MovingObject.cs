@@ -14,7 +14,7 @@ public abstract class MovingObject : MonoBehaviour {
 
 
     // Use this for initialization
-    protected virtual void start()
+    protected virtual void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
@@ -36,16 +36,17 @@ public abstract class MovingObject : MonoBehaviour {
             StartCoroutine(SmoothMovement(end));
             return true;
         }
+        return false;
     }
     protected IEnumerator SmoothMovement (Vector2 end)
     {
-        float sqrRemainingDistance = (transform.position (end)).sqrMagnitude;
+        float sqrRemainingDistance = ((Vector2)transform.position - (end)).sqrMagnitude;
 
         while (sqrRemainingDistance > float.Epsilon)
         {
             Vector2 newPosition = Vector2.MoveTowards(rb2D.position, end, inverseMoveTime * Time.deltaTime);
             rb2D.MovePosition(newPosition);
-            sqrRemainingDistance = (transform.position (end)).sqrMagnitude;
+            sqrRemainingDistance = ((Vector2)transform.position - (end)).sqrMagnitude;
             yield return null;
         }
     }
@@ -59,11 +60,14 @@ public abstract class MovingObject : MonoBehaviour {
 
         T hitComponent = hit.transform.GetComponent<T>();
 
+        /*
         if (!canMove && hitComponent != null)
             OnCantMove(hitComponent);
-
+            */
     }
 
-    protected abstract void OnCantMove<T>(T component)
-     where T : Component;
+    /*
+    protected abstract void OnCantMove<T>(T component) 
+        where T : Component;
+        */
 }

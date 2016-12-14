@@ -1,36 +1,42 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.UI;
 
-//Game states
-
-    public enum GameState { INTRO, MAIN_MENU}
-
-    public delegate void OnStateChangeHandler();
-
-    public class GameManager
+public class GameManager : MonoBehaviour
 {
-    protected GameManager() { }
-    private static GameManager instance = null;
-    public event OnStateChangeHandler OnStateChange;
-    public GameState gameState { get; private set; }
+    
+    public GameObject VictimPrefab;
 
-    public static GameManager Instance
+    public Text MoneyText;
+
+    private float MONEY = 0;
+
+    public float getMoney() { return MONEY; }
+
+    public void setMoney(float _m)
     {
-        get
-        {
-            if (GameManager.instance == null)
-            {
-                DontDestroyOnLoad(GameManager.instance);
-                GameManager.instance = new GameManager();
-            }
-            return GameManager.instance;
-        }
-
+        MONEY = _m;
+        MoneyText.text = "Money: "+MONEY.ToString();
     }
 
-    public void SetGameState(GameState state)
+    public void gameOver()
     {
+        Application.Quit();
+    }
 
+    IEnumerator SpawnEnemies()
+    {
+        while (true)
+        {
+            int randomNumber = UnityEngine.Random.Range(1, 10);
+        yield return new WaitForSeconds(randomNumber);
+        GameObject Victim = Instantiate(VictimPrefab, new Vector3(36, -3.83f, 0), Quaternion.identity) as GameObject;
+        }
+        
+    }
+    void Start()
+    {
+        StartCoroutine(SpawnEnemies());
     }
 }

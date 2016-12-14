@@ -1,0 +1,16 @@
+﻿using UnityEngine;
+using System.Collections;
+
+
+[System.Serializable]
+public class WeaponObject : ScriptableObject
+{
+
+    public string weaponName = "Weapon name here";
+    public int cost = 50;
+    public string description;
+
+    public float effectivity = 50;
+
+
+}
